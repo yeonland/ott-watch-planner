@@ -3,103 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>다봄 (Dabom) - 나의 시청 기록</title>
+    <title>SCENE SIDE - 작품을 발견하는 새로운 시선</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
     <header class="header">
-        <div class="header__logo">Dabom<span class="header__logo-dot">.</span></div>
-        <div class="header__profile">
-            <div class="header__avatar"></div>
-        </div>
+        <a href="#/" class="header-logo" aria-label="SCENE SIDE 홈">SCENE SIDE</a>
+        <p class="header-tagline">작품을 발견하는 새로운 시선</p>
     </header>
 
     <main class="container">
-        <section class="hero">
-            <h1 class="hero__title">오늘 어떤 작품을<br><span class="hero__highlight">다봄</span> 하셨나요?</h1>
-            <div class="search-bar">
-                <i class="search-bar__icon fas fa-search"></i>
-                <input class="search-bar__input" type="text" placeholder="영화, 드라마 제목 검색...">
-            </div>
-        </section>
+        <!-- 홈 -->
+        <div data-view="home">
+            <section class="hero">
+                <p class="eyebrow">NOW SHOWING</p>
+                <h1 class="hero-title">오늘 어떤 이야기를<br>만나볼까?</h1>
+                <form id="home-search-form" class="search-bar" role="search">
+                    <i class="search-bar-icon fas fa-search" aria-hidden="true"></i>
+                    <label for="home-search" class="visually-hidden">작품명 또는 관심 주제 검색</label>
+                    <input id="home-search" class="search-bar-input" type="search" placeholder="작품명, 시대, 소재로 검색">
+                </form>
+            </section>
 
-        <section class="section section--watching">
-            <div class="section__header">
-                <h2 class="section__title">지금 시청 중 🍿</h2>
-                <a href="#" class="section__more">더보기</a>
-            </div>
-
-            <div class="card-scroller">
-                <div class="card">
-                    <div class="card__poster">
-                        <span class="card__tag">Netflix</span>
-                    </div>
-                    <div class="card__info">
-                        <h3 class="card__title">오징어 게임 2</h3>
-                        <div class="card__progress-info">
-                            <span>Ep. 3 / 8</span>
-                            <span>35%</span>
-                        </div>
-                        <div class="card__progress-bar">
-                            <div class="card__progress-fill" style="width: 35%;"></div>
-                        </div>
-                        <button class="card__button">+ 1화 다봄</button>
-                    </div>
+            <section class="section" aria-labelledby="topics-title">
+                <div class="section-header">
+                    <h2 id="topics-title" class="section-title">주제로 찾기</h2>
                 </div>
+                <ul class="topic-list">
+                    <li><a href="#/explore?q=조선시대" class="topic-chip">조선시대</a></li>
+                    <li><a href="#/explore?q=시간여행" class="topic-chip">시간여행</a></li>
+                    <li><a href="#/explore?q=신화·전설" class="topic-chip">신화·전설</a></li>
+                    <li><a href="#/explore?q=일본 여름" class="topic-chip">일본 여름</a></li>
+                    <li><a href="#/explore?q=성장" class="topic-chip">성장 이야기</a></li>
+                </ul>
+            </section>
 
-                <div class="card">
-                    <div class="card__poster">
-                        <span class="card__tag">Disney+</span>
-                    </div>
-                    <div class="card__info">
-                        <h3 class="card__title">무빙</h3>
-                        <div class="card__progress-info">
-                            <span>Ep. 12 / 20</span>
-                            <span>60%</span>
-                        </div>
-                        <div class="card__progress-bar">
-                            <div class="card__progress-fill" style="width: 60%;"></div>
-                        </div>
-                        <button class="card__button">+ 1화 다봄</button>
-                    </div>
+            <section class="section" aria-labelledby="picks-title">
+                <div class="section-header">
+                    <h2 id="picks-title" class="section-title">상영작 둘러보기</h2>
+                    <a href="#/explore?q=" class="section-more">전체 보기</a>
                 </div>
-            </div>
-        </section>
+                <ul id="home-picks" class="card-scroller"></ul>
+            </section>
+        </div>
 
-        <section class="section section--recent">
-            <div class="section__header">
-                <h2 class="section__title">최근 다봄 기록 ✅</h2>
-            </div>
+        <!-- 탐색 -->
+        <section data-view="explore" aria-labelledby="explore-title" hidden>
+            <p class="eyebrow">EXPLORE</p>
+            <h1 id="explore-title" class="page-title">탐색</h1>
+            <form id="explore-search-form" class="search-bar" role="search">
+                <i class="search-bar-icon fas fa-search" aria-hidden="true"></i>
+                <label for="explore-search" class="visually-hidden">작품명 또는 관심 주제 검색</label>
+                <input id="explore-search" class="search-bar-input" type="search" placeholder="작품명, 시대, 소재로 검색">
+            </form>
 
-            <div class="record-list">
-                <div class="record">
-                    <div class="record__poster"></div>
-                    <div class="record__info">
-                        <h3 class="record__title">헤어질 결심</h3>
-                        <span class="record__date">2026.02.14</span>
-                    </div>
-                    <div class="record__rating">★ 4.5</div>
+            <details class="filter-panel">
+                <summary class="filter-toggle">필터</summary>
+                <div class="filter-grid">
+                    <label class="filter-field">국가
+                        <select data-filter="country" data-label="국가"><option value="">전체</option></select>
+                    </label>
+                    <label class="filter-field">장르
+                        <select data-filter="genre" data-label="장르"><option value="">전체</option></select>
+                    </label>
+                    <label class="filter-field">시대
+                        <select data-filter="period" data-label="시대"><option value="">전체</option></select>
+                    </label>
+                    <label class="filter-field">소재
+                        <select data-filter="theme" data-label="소재"><option value="">전체</option></select>
+                    </label>
                 </div>
+            </details>
 
-                <div class="record">
-                    <div class="record__poster"></div>
-                    <div class="record__info">
-                        <h3 class="record__title">엘리멘탈</h3>
-                        <span class="record__date">2026.02.10</span>
-                    </div>
-                    <div class="record__rating">★ 5.0</div>
-                </div>
+            <div class="result-bar">
+                <p id="result-count" class="result-count" aria-live="polite"></p>
+                <button type="button" id="reset-filters" class="text-button">초기화</button>
             </div>
+            <ul id="explore-results" class="poster-grid"></ul>
+            <p id="explore-empty" class="empty-state" hidden>조건에 맞는 작품이 없어요. 검색어나 필터를 바꿔 보세요.</p>
         </section>
     </main>
 
-    <nav class="bottom-nav">
-        <div class="bottom-nav__item bottom-nav__item--active"><i class="fas fa-home"></i></div>
-        <div class="bottom-nav__item"><i class="fas fa-chart-bar"></i></div>
-        <div class="bottom-nav__item"><i class="fas fa-user"></i></div>
+    <footer class="site-footer">
+        <p>작품 태그와 짧은 소개는 SCENE SIDE가 직접 정리했어요.</p>
+        <p>포스터는 TMDB API를 사용합니다. 이 서비스는 TMDB의 보증이나 인증을 받지 않았습니다.</p>
+    </footer>
+
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+        <a href="#/" class="bottom-nav-item is-active" data-nav="home" aria-current="page">
+            <i class="fas fa-house" aria-hidden="true"></i><span>홈</span>
+        </a>
+        <a href="#/explore" class="bottom-nav-item" data-nav="explore">
+            <i class="fas fa-compass" aria-hidden="true"></i><span>탐색</span>
+        </a>
+        <a href="#/archive" class="bottom-nav-item" data-nav="archive">
+            <i class="fas fa-film" aria-hidden="true"></i><span>보관함</span>
+        </a>
     </nav>
 
+    <script src="./js/data.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>
