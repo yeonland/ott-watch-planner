@@ -84,11 +84,37 @@
             <ul id="explore-results" class="poster-grid"></ul>
             <p id="explore-empty" class="empty-state" hidden>조건에 맞는 작품이 없어요. 검색어나 필터를 바꿔 보세요.</p>
         </section>
+
+        <!-- 작품 상세 -->
+        <section data-view="detail" hidden>
+            <button type="button" id="detail-back" class="text-button detail-back">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i> 뒤로
+            </button>
+            <div id="detail-content"></div>
+        </section>
+
+        <!-- 보관함 -->
+        <section data-view="archive" aria-labelledby="archive-title" hidden>
+            <p class="eyebrow eyebrow-archive">MY FILM ARCHIVE</p>
+            <h1 id="archive-title" class="page-title" tabindex="-1">보관함</h1>
+            <div class="archive-tabs" role="group" aria-label="보관함 분류">
+                <button type="button" class="archive-tab" data-archive-filter="all">전체 <span class="archive-count"></span></button>
+                <button type="button" class="archive-tab" data-archive-filter="want">보고 싶은 작품 <span class="archive-count"></span></button>
+                <button type="button" class="archive-tab" data-archive-filter="watched">본 작품 <span class="archive-count"></span></button>
+            </div>
+            <ul id="archive-list" class="poster-grid"></ul>
+            <div id="archive-empty" class="empty-state" hidden>
+                <p>아직 보관한 작품이 없어요.</p>
+                <a href="#/explore?q=" class="button-primary">작품 찾으러 가기</a>
+            </div>
+            <p id="archive-filter-empty" class="empty-state" hidden>이 분류에는 아직 작품이 없어요.</p>
+            <p class="archive-note">보관함은 지금 쓰는 브라우저에만 저장돼요. 다른 기기와 동기화되지 않고, 브라우저 데이터를 지우면 함께 사라져요.</p>
+        </section>
     </main>
 
     <footer class="site-footer">
         <p>작품 태그와 짧은 소개는 SCENE SIDE가 직접 정리했어요.</p>
-        <p>포스터는 TMDB API를 사용합니다. 이 서비스는 TMDB의 보증이나 인증을 받지 않았습니다.</p>
+        <p>포스터와 줄거리는 TMDB API를 사용합니다. 이 서비스는 TMDB의 보증이나 인증을 받지 않았습니다.</p>
     </footer>
 
     <nav class="bottom-nav" aria-label="주요 메뉴">
@@ -105,6 +131,7 @@
 
     <script src="./js/data.js"></script>
     <script src="./js/search.js"></script>
+    <script src="./js/library.js"></script>
     <script src="./js/app.js"></script>
 </body>
 </html>

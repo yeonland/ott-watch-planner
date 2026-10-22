@@ -4,6 +4,7 @@
     --color-ivory: #F5F0E6;    /* Ticket Ivory: 기본 텍스트·밝은 프레임 */
     --color-accent: #F2C94C;   /* Spotlight Yellow: 브랜드 포인트·선택 상태 (위에 올리는 글자는 검정) */
     --color-gray: #858585;     /* Film Gray: 보조 정보 글자·경계선 (배경 대비 약 4.8:1) */
+    --color-archive: #A63D40;  /* Velvet Red: 보관함 전용, 글자색 금지 (위에 올리는 글자는 아이보리) */
     --color-surface: rgba(245, 240, 230, 0.06);  /* 카드·패널: 아이보리 투명도로 톤 조절 */
     --border-radius: 12px;
 }
@@ -348,7 +349,138 @@ a {
     color: var(--color-gray);
 }
 
-/* 6. 푸터 (데이터 출처 표시) */
+/* 버튼 */
+.button-primary,
+.button-secondary {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 노란 배경에는 검정 글자 */
+.button-primary {
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    color: var(--color-bg);
+}
+
+.button-secondary {
+    background: transparent;
+    border: 1px solid var(--color-ivory);
+    color: var(--color-ivory);
+}
+
+/* 6. 작품 상세 */
+.detail-back {
+    margin-bottom: 16px;
+    text-decoration: none;
+}
+
+.detail-hero {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 32px;
+}
+
+.detail-info .page-title {
+    margin: 8px 0 4px;
+}
+
+.detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.detail-section {
+    margin-bottom: 32px;
+}
+
+.detail-section .section-title {
+    margin-bottom: 12px;
+}
+
+.detail-text {
+    line-height: 1.7;
+}
+
+@media (min-width: 900px) {
+    .detail-hero {
+        grid-template-columns: 240px 1fr;
+        gap: 32px;
+    }
+}
+
+/* 7. 보관함: Velvet Red는 이 화면과 '보관됨' 표시에서만 쓴다 */
+.eyebrow-archive::before {
+    background-color: var(--color-archive);
+}
+
+.archive-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: var(--color-archive);
+    color: var(--color-ivory);
+}
+
+.archive-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.archive-tab {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--color-gray);
+    background: transparent;
+    color: var(--color-ivory);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.archive-tab[aria-pressed="true"] {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.archive-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+
+.archive-actions .text-button {
+    padding: 6px 0;
+    font-size: 13px;
+}
+
+.archive-note {
+    margin-top: 32px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--color-gray);
+}
+
+.empty-state .button-primary {
+    margin-top: 16px;
+}
+
+/* 8. 푸터 (데이터 출처 표시) */
 .site-footer {
     max-width: 600px;
     margin: 0 auto;
@@ -359,7 +491,7 @@ a {
     border-top: 1px solid rgba(133, 133, 133, 0.5);
 }
 
-/* 7. 하단 네비게이션 */
+/* 9. 하단 네비게이션 */
 .bottom-nav {
     position: fixed;
     bottom: 0;
