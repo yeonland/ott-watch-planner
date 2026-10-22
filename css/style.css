@@ -351,7 +351,8 @@ a {
 
 /* 버튼 */
 .button-primary,
-.button-secondary {
+.button-secondary,
+.button-archive {
     display: inline-block;
     padding: 12px 18px;
     border-radius: 8px;
@@ -372,6 +373,44 @@ a {
     background: transparent;
     border: 1px solid var(--color-ivory);
     color: var(--color-ivory);
+}
+
+/* 눌린 '봤어요'는 아이보리로 채운다 */
+.button-secondary[aria-pressed="true"] {
+    background-color: var(--color-ivory);
+    color: var(--color-bg);
+}
+
+/* 보관 관련 버튼(보관됨·보관함 화면)은 Velvet Red 배경 + 아이보리 글자 */
+.button-archive {
+    background-color: var(--color-archive);
+    border: 1px solid var(--color-archive);
+    color: var(--color-ivory);
+}
+
+/* 포스터 위 찜 버튼 */
+.poster-item {
+    position: relative;
+}
+
+.save-toggle {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 240, 230, 0.6);
+    background-color: rgba(23, 23, 23, 0.75);
+    color: var(--color-ivory);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.save-toggle[aria-pressed="true"] {
+    background-color: var(--color-archive);
+    border-color: var(--color-archive);
 }
 
 /* 6. 작품 상세 */
@@ -453,9 +492,68 @@ a {
 }
 
 .archive-tab[aria-pressed="true"] {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
-    color: var(--color-bg);
+    background-color: var(--color-archive);
+    border-color: var(--color-archive);
+    color: var(--color-ivory);
+}
+
+/* 필름 프레임: 위·아래 구멍 줄, 프레임 번호는 포스터를 가리지 않도록 아래 여백에 둔다 */
+.film-strip {
+    --hole-size: 8px;
+    --hole-gap: 8px;
+    position: relative;
+    padding: 16px 8px 32px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-gray);
+    border-radius: 4px;
+}
+
+.film-strip::before,
+.film-strip::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg,
+        rgba(245, 240, 230, 0.75) 0 var(--hole-size),
+        transparent var(--hole-size) calc(var(--hole-size) + var(--hole-gap)));
+}
+
+.film-strip::before {
+    top: 5px;
+}
+
+.film-strip::after {
+    bottom: 5px;
+}
+
+/* 필름 안에서는 포스터 테두리·둥근 모서리를 줄여 컷처럼 보이게 한다 */
+.film-strip .poster {
+    border: none;
+    border-radius: 2px;
+}
+
+.frame-number {
+    position: absolute;
+    left: 8px;
+    bottom: 14px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    background-color: var(--color-archive);
+    color: var(--color-ivory);
+}
+
+/* 작은 화면에서는 구멍 간격을 넓혀 과밀하지 않게 한다 */
+@media (max-width: 479px) {
+    .film-strip {
+        --hole-size: 6px;
+        --hole-gap: 10px;
+    }
 }
 
 .archive-actions {
@@ -476,7 +574,7 @@ a {
     color: var(--color-gray);
 }
 
-.empty-state .button-primary {
+.empty-state .button-archive {
     margin-top: 16px;
 }
 

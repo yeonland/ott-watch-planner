@@ -35,15 +35,25 @@ function fillPosters(container) {
 }
 
 // ---------- 화면 그리기 ----------
-function posterCard(work, extra = '') {
+// 포스터 위 찜(보관) 버튼: 링크 안에 버튼을 넣을 수 없어 li 안에서 포스터 위로 겹쳐 둔다
+function saveToggle(work) {
+  const saved = Boolean(library[work.id]);
   return `
-    <li>
+    <button type="button" class="save-toggle" data-action="save" data-id="${work.id}"
+      aria-pressed="${saved}" aria-label="${work.title} 보관하기">
+      <i class="${saved ? 'fas' : 'far'} fa-bookmark" aria-hidden="true"></i>
+    </button>`;
+}
+
+function posterCard(work) {
+  return `
+    <li class="poster-item">
+      ${saveToggle(work)}
       <a class="poster-card" href="#/work/${work.id}">
         <div class="poster" data-poster="${work.id}"><span class="poster-fallback">${work.title}</span></div>
         <h3 class="poster-title">${work.title}</h3>
         <p class="poster-meta">${work.year} · ${COUNTRY_LABELS[work.country]} · ${TYPE_LABELS[work.type]}</p>
       </a>
-      ${extra}
     </li>`;
 }
 
@@ -86,11 +96,14 @@ function renderDetail(id) {
         <h1 class="page-title" tabindex="-1">${work.title}</h1>
         <p class="poster-meta">${work.year} · ${COUNTRY_LABELS[work.country]} · ${TYPE_LABELS[work.type]}</p>
         <div class="detail-actions">
-          <button type="button" class="${entry ? 'button-secondary' : 'button-primary'}" data-action="save" data-id="${id}">
-            ${entry ? '저장 취소' : '보관하기'}
+          <!-- 토글 버튼: 읽어 주는 이름은 고정하고 눌림 여부는 aria-pressed로 알린다 -->
+          <button type="button" class="${entry ? 'button-archive' : 'button-primary'}" data-action="save" data-id="${id}"
+            aria-pressed="${Boolean(entry)}" aria-label="보관하기" title="${entry ? '다시 누르면 보관을 취소해요' : '보관함에 담아요'}">
+            <i class="${entry ? 'fas' : 'far'} fa-bookmark" aria-hidden="true"></i> ${entry ? '보관됨' : '보관하기'}
           </button>
-          <button type="button" class="button-secondary" data-action="watched" data-id="${id}">
-            ${entry?.status === 'watched' ? '봤어요 취소' : '봤어요'}
+          <button type="button" class="button-secondary" data-action="watched" data-id="${id}"
+            aria-pressed="${entry?.status === 'watched'}" aria-label="봤어요">
+            <i class="fas fa-check" aria-hidden="true"></i> 봤어요
           </button>
         </div>
       </div>
@@ -119,9 +132,31 @@ function renderDetail(id) {
   });
 }
 
+// 보관함 전용 카드: 포스터를 필름 한 컷처럼 감싼다 (탐색 결과에는 쓰지 않는다)
+function filmFrame(work, entry, frameNumber) {
+  return `
+    <li class="film-frame">
+      <a class="poster-card" href="#/work/${work.id}">
+        <div class="film-strip">
+          <div class="poster" data-poster="${work.id}"><span class="poster-fallback">${work.title}</span></div>
+          <span class="frame-number" aria-hidden="true">FRAME ${frameNumber}</span>
+        </div>
+        <h3 class="poster-title">${work.title}</h3>
+        <p class="poster-meta">${work.year} · ${COUNTRY_LABELS[work.country]} · ${TYPE_LABELS[work.type]}</p>
+      </a>
+      <span class="archive-badge">${STATUS_LABELS[entry.status]}</span>
+      <div class="archive-actions">
+        <button type="button" class="text-button" data-action="watched" data-id="${work.id}">${entry.status === 'watched' ? '안 봤어요' : '봤어요'}</button>
+        <button type="button" class="text-button" data-action="save" data-id="${work.id}">저장 취소</button>
+      </div>
+    </li>`;
+}
+
 function renderArchive() {
   // 데이터에서 빠진 작품의 기록은 건너뛴다
+  // savedAt은 날짜까지만 있어서, 같은 날은 나중에 보관한 것(객체에 뒤에 추가된 키)이 앞에 오도록 뒤집은 뒤 안정 정렬한다
   const entries = Object.entries(library)
+    .reverse()
     .filter(([id]) => findWork(id))
     .sort(([, a], [, b]) => b.savedAt.localeCompare(a.savedAt));
   const counts = { all: entries.length, want: 0, watched: 0 };
@@ -133,14 +168,11 @@ function renderArchive() {
     tab.querySelector('.archive-count').textContent = counts[key];
   });
 
+  // 프레임 번호는 보관한 순서(가장 먼저 보관한 작품이 001)라 분류 탭을 바꿔도 같은 번호가 유지된다
+  const frameNumbers = new Map(entries.map(([id], index) => [id, String(entries.length - index).padStart(3, '0')]));
   const visible = entries.filter(([, entry]) => state.archiveFilter === 'all' || entry.status === state.archiveFilter);
   const list = document.getElementById('archive-list');
-  list.innerHTML = visible.map(([id, entry]) => posterCard(findWork(id), `
-    <span class="archive-badge">${STATUS_LABELS[entry.status]}</span>
-    <div class="archive-actions">
-      <button type="button" class="text-button" data-action="watched" data-id="${id}">${entry.status === 'watched' ? '안 봤어요' : '봤어요'}</button>
-      <button type="button" class="text-button" data-action="save" data-id="${id}">저장 취소</button>
-    </div>`)).join('');
+  list.innerHTML = visible.map(([id, entry]) => filmFrame(findWork(id), entry, frameNumbers.get(id))).join('');
   fillPosters(list);
 
   document.getElementById('archive-empty').hidden = entries.length > 0;
@@ -181,6 +213,7 @@ function parseRoute() {
 
 function renderCurrent() {
   const { view, id } = parseRoute();
+  if (view === 'home') renderHome();
   if (view === 'explore') renderExplore();
   if (view === 'archive') renderArchive();
   if (view === 'detail') renderDetail(id);
