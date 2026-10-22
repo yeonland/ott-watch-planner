@@ -29,7 +29,7 @@
 
             <section class="section" aria-labelledby="topics-title">
                 <div class="section-header">
-                    <h2 id="topics-title" class="section-title">주제로 찾기</h2>
+                    <h2 id="topics-title" class="section-title">추천 주제</h2>
                 </div>
                 <ul class="topic-list">
                     <li><a href="#/explore?q=조선시대" class="topic-chip">조선시대</a></li>
@@ -40,12 +40,35 @@
                 </ul>
             </section>
 
-            <section class="section" aria-labelledby="picks-title">
+            <section class="section" aria-labelledby="today-title">
                 <div class="section-header">
-                    <h2 id="picks-title" class="section-title">이런 이야기는 어때요?</h2>
-                    <a href="#/explore?q=" class="section-more">전체 보기</a>
+                    <h2 id="today-title" class="section-title">오늘의 작품</h2>
                 </div>
-                <ul id="home-picks" class="card-scroller"></ul>
+                <div id="today-pick" class="today-pick"></div>
+            </section>
+
+            <section class="section" aria-labelledby="collections-title">
+                <div class="section-header">
+                    <h2 id="collections-title" class="section-title">기획전</h2>
+                    <a href="#/explore?q=" class="section-more">전체 작품 보기</a>
+                </div>
+                <div class="collection-bar">
+                    <div>
+                        <h3 id="collection-title" class="collection-title"></h3>
+                        <p id="collection-text" class="collection-text"></p>
+                    </div>
+                    <div class="carousel-controls">
+                        <button type="button" id="collection-prev" class="carousel-button" aria-label="이전 기획전">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <span id="collection-index" class="collection-index"></span>
+                        <button type="button" id="collection-next" class="carousel-button" aria-label="다음 기획전">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <ul id="collection-works" class="card-scroller" aria-labelledby="collection-title"></ul>
+                <p id="collection-live" class="visually-hidden" aria-live="polite"></p>
             </section>
         </div>
 
@@ -99,8 +122,9 @@
             <h1 id="archive-title" class="page-title" tabindex="-1">보관함</h1>
             <div class="archive-tabs" role="group" aria-label="보관함 분류">
                 <button type="button" class="archive-tab" data-archive-filter="all">전체 <span class="archive-count"></span></button>
-                <button type="button" class="archive-tab" data-archive-filter="want">보고 싶은 작품 <span class="archive-count"></span></button>
-                <button type="button" class="archive-tab" data-archive-filter="watched">본 작품 <span class="archive-count"></span></button>
+                <button type="button" class="archive-tab" data-archive-filter="want">보고 싶어요 <span class="archive-count"></span></button>
+                <button type="button" class="archive-tab" data-archive-filter="watching">시청 중 <span class="archive-count"></span></button>
+                <button type="button" class="archive-tab" data-archive-filter="watched">감상 완료 <span class="archive-count"></span></button>
             </div>
             <ul id="archive-list" class="poster-grid"></ul>
             <div id="archive-empty" class="empty-state" hidden>
@@ -109,6 +133,71 @@
             </div>
             <p id="archive-filter-empty" class="empty-state" hidden>이 분류에는 아직 작품이 없어요.</p>
             <p class="archive-note">보관함은 지금 쓰는 브라우저에만 저장돼요. 다른 기기와 동기화되지 않고, 브라우저 데이터를 지우면 함께 사라져요.</p>
+        </section>
+
+        <!-- 마이 -->
+        <section data-view="my" aria-labelledby="my-title" hidden>
+            <p class="eyebrow">MY SCENE</p>
+            <h1 id="my-title" class="page-title" tabindex="-1">마이</h1>
+
+            <section class="my-card" aria-labelledby="recap-title">
+                <p class="eyebrow">MONTHLY RECAP</p>
+                <h2 id="recap-title" class="my-card-title">이번 달 나의 감상 기록 <span id="stats-month" class="poster-meta"></span></h2>
+                <dl class="recap-grid">
+                    <div><dd><span id="stats-watched" class="recap-number"></span> 작품</dd><dt>감상 완료</dt></div>
+                    <div><dd><span id="stats-rating" class="recap-number"></span></dd><dt>평균 별점</dt></div>
+                </dl>
+                <p id="stats-detail" class="stats-note"></p>
+                <p id="stats-empty" class="stats-note">작품을 '감상 완료'로 기록하면 이번 달 통계가 만들어져요.</p>
+                <p class="stats-note">감상 완료로 표시한 날짜를 기준으로 세요. 평균 별점은 별점을 남긴 작품만 계산해요.</p>
+            </section>
+
+            <!-- 구독 관리가 숨지 않도록 마이 첫 화면에 합계와 결제일을 바로 보여 준다 -->
+            <section class="my-card" aria-labelledby="ott-title">
+                <h2 id="ott-title" class="my-card-title">나의 OTT 구독</h2>
+                <dl class="recap-grid">
+                    <div><dt>이번 달 구독료</dt><dd id="ott-total" class="ott-value"></dd></div>
+                    <div><dt>다음 결제일</dt><dd id="ott-next" class="ott-value"></dd></div>
+                </dl>
+                <p id="ott-empty" class="stats-note">OTT를 등록하면 결제 예정일을 확인할 수 있어요.</p>
+                <ul id="ott-list" class="ott-list"></ul>
+                <details id="ott-form-panel" class="filter-panel">
+                    <summary class="filter-toggle">OTT 등록하기</summary>
+                    <form id="ott-form" class="filter-grid" novalidate>
+                        <label class="filter-field">서비스
+                            <select name="service" required></select>
+                        </label>
+                        <label class="filter-field">월 결제액(원)
+                            <input name="price" type="number" inputmode="numeric" min="0" max="1000000" step="1" required>
+                        </label>
+                        <label class="filter-field">매달 결제일
+                            <input name="day" type="number" inputmode="numeric" min="1" max="31" step="1" required>
+                        </label>
+                        <div class="ott-form-actions">
+                            <button type="submit" class="button-primary">등록</button>
+                        </div>
+                        <p id="ott-error" class="ott-error" role="alert" hidden></p>
+                    </form>
+                </details>
+                <p class="stats-note">금액과 결제일은 직접 입력한 값이에요. 월 결제 기준이며, OTT 계정에 연결하거나 구독을 해지하지 않아요.</p>
+            </section>
+
+            <button type="button" id="share-report" class="button-primary share-button">
+                <i class="fas fa-share-nodes" aria-hidden="true"></i> 월간 리포트 공유하기
+            </button>
+            <p id="share-status" class="stats-note" role="status"></p>
+
+            <section class="my-card" aria-labelledby="settings-title">
+                <h2 id="settings-title" class="my-card-title">설정</h2>
+                <p class="stats-note">기록은 이 브라우저에만 저장돼요. 로그인과 기기 간 동기화는 아직 지원하지 않아요.</p>
+                <button type="button" id="clear-library" class="button-secondary">보관함 비우기</button>
+                <div id="clear-confirm" class="clear-confirm" hidden>
+                    <p>보관한 작품과 감상 기록이 모두 지워지고 되돌릴 수 없어요. 비울까요?</p>
+                    <button type="button" id="clear-yes" class="button-secondary">비우기</button>
+                    <button type="button" id="clear-cancel" class="text-button">취소</button>
+                </div>
+                <p id="clear-done" class="stats-note" role="status" hidden>보관함을 비웠어요.</p>
+            </section>
         </section>
     </main>
 
@@ -127,11 +216,15 @@
         <a href="#/archive" class="bottom-nav-item" data-nav="archive">
             <i class="fas fa-film" aria-hidden="true"></i><span>보관함</span>
         </a>
+        <a href="#/my" class="bottom-nav-item" data-nav="my">
+            <i class="fas fa-user" aria-hidden="true"></i><span>마이</span>
+        </a>
     </nav>
 
     <script src="./js/data.js"></script>
     <script src="./js/search.js"></script>
     <script src="./js/library.js"></script>
+    <script src="./js/subscriptions.js"></script>
     <script src="./js/app.js"></script>
 </body>
 </html>

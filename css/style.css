@@ -413,6 +413,80 @@ a {
     border-color: var(--color-archive);
 }
 
+/* 홈: 오늘의 작품 */
+.today-pick {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    background-color: var(--color-surface);
+}
+
+.today-pick-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.today-pick-title a {
+    text-decoration: none;
+}
+
+.today-pick-text {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 홈: 기획전 캐러셀 */
+.collection-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.carousel-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-gray);
+    background: transparent;
+    color: var(--color-ivory);
+    cursor: pointer;
+}
+
+.carousel-button:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.collection-index {
+    min-width: 36px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-gray);
+}
+
+.collection-title {
+    font-size: 16px;
+}
+
+.collection-text {
+    font-size: 13px;
+    color: var(--color-gray);
+    margin: 2px 0 12px;
+}
+
 /* 6. 작품 상세 */
 .detail-back {
     margin-bottom: 16px;
@@ -436,6 +510,29 @@ a {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 16px;
+}
+
+.status-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.status-button {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--color-gray);
+    background: transparent;
+    color: var(--color-ivory);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* 감상 상태도 보관 기록이라 Velvet Red로 표시 */
+.status-button[aria-pressed="true"] {
+    background-color: var(--color-archive);
+    border-color: var(--color-archive);
 }
 
 .detail-section {
@@ -562,6 +659,15 @@ a {
     gap: 4px 12px;
 }
 
+.status-select {
+    background-color: var(--color-bg);
+    color: var(--color-ivory);
+    border: 1px solid var(--color-gray);
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 13px;
+}
+
 .archive-actions .text-button {
     padding: 6px 0;
     font-size: 13px;
@@ -576,6 +682,147 @@ a {
 
 .empty-state .button-archive {
     margin-top: 16px;
+}
+
+/* 별점 (노랑은 검정 배경 대비가 높아 아이콘·글자로 쓸 수 있다) */
+.rating-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 12px;
+}
+
+.rating-star {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: var(--color-accent);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.rating-group .poster-meta {
+    margin: 0 0 0 6px;
+}
+
+/* 마이 */
+.my-card {
+    margin-bottom: 24px;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    background-color: var(--color-surface);
+}
+
+.my-card-title {
+    font-size: 17px;
+    margin-bottom: 16px;
+}
+
+.recap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* dd가 먼저 와도 화면에서는 숫자 아래 설명이 보이게 순서를 맞춘다 */
+.recap-grid > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.recap-grid dt {
+    font-size: 13px;
+    color: var(--color-gray);
+}
+
+/* 노랑은 검정 배경 대비가 높아 숫자 강조 글자로 쓴다 */
+.recap-number {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--color-accent);
+}
+
+.ott-value {
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.ott-list {
+    list-style: none;
+    margin-bottom: 12px;
+}
+
+.ott-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(133, 133, 133, 0.4);
+}
+
+.ott-name {
+    font-weight: 600;
+}
+
+.ott-item .text-button {
+    margin-left: auto;
+}
+
+.filter-field input {
+    background-color: var(--color-bg);
+    color: var(--color-ivory);
+    border: 1px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.ott-form-actions {
+    display: flex;
+    align-items: flex-end;
+}
+
+.ott-error {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    color: var(--color-accent);
+}
+
+.share-button {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.share-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.my-card .filter-panel {
+    margin-bottom: 12px;
+}
+
+.stats-note {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-gray);
+    margin-bottom: 12px;
+}
+
+.clear-confirm {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+.clear-confirm p {
+    width: 100%;
+    font-size: 14px;
 }
 
 /* 8. 푸터 (데이터 출처 표시) */

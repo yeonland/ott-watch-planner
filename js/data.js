@@ -32,5 +32,9 @@ const works = [
   { id: 'work-026', title: '귀멸의 칼날', year: 2019, type: 'animation', media: 'tv', country: 'JP', genres: ['액션', '판타지'], periods: ['다이쇼 시대'], themes: ['요괴', '가족'], synopsis: '혈귀가 된 여동생을 사람으로 되돌리기 위해 소년이 귀살대에 들어간다.' },
 ];
 
-// 홈 큐레이션: 서로 다른 주제가 고루 보이도록 고른 작품
-const homePicks = ['work-005', 'work-008', 'work-014', 'work-024', 'work-010', 'work-026'];
+// 홈 기획전: 주제 하나로 묶은 큐레이션
+const collections = [
+  { id: 'joseon-palace', title: '조선의 궁궐로', description: '왕과 궁중 사람들의 이야기', workIds: ['work-001', 'work-002', 'work-003', 'work-004', 'work-007', 'work-005'] },
+  { id: 'time-travel', title: '시간을 건너는 이야기', description: '과거로, 미래로, 다시 오늘로', workIds: ['work-008', 'work-010', 'work-011', 'work-009', 'work-025'] },
+  { id: 'japan-summer', title: '일본 애니메이션의 여름', description: '매미 소리가 들리는 여름 방학', workIds: ['work-008', 'work-017', 'work-018', 'work-019'] },
+];

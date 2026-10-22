@@ -31,6 +31,6 @@ assert.deepStrictEqual(titles('없는작품'), []);
 // id 중복과 홈 큐레이션 id 오타 방지
 const ids = run("works.map((w) => w.id)");
 assert.strictEqual(new Set(ids).size, ids.length, 'id 중복');
-for (const id of run("homePicks")) assert.ok(ids.includes(id), `homePicks에 없는 id: ${id}`);
+for (const id of run("collections.flatMap((c) => c.workIds)")) assert.ok(ids.includes(id), `기획전에 없는 id: ${id}`);
 
 console.log('search tests passed');
